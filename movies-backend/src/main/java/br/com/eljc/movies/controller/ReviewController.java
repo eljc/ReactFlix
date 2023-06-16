@@ -1,0 +1,28 @@
+package br.com.eljc.movies.controller;
+
+import br.com.eljc.movies.document.Review;
+import br.com.eljc.movies.services.ReviewService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/v1/reviews")
+public class ReviewController {
+    @Autowired
+    private ReviewService service;
+
+    @PostMapping()
+    public ResponseEntity<Review> createReview(@RequestBody Map<String, String> payload) {
+        System.out.println("Playload"+payload);
+        System.out.println("payload.get(\"imdbId\")"+payload.get("imdbId"));
+
+        return new ResponseEntity<Review>(service.createReview(payload.get("reviewBody"), payload.get("imdbId")), HttpStatus.OK);
+    }
+}
